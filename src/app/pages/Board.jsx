@@ -35,8 +35,25 @@ const Board = () => {
 
     // Handle winning condition
     const checkForWinner = (squares, symbol) => {
-        // Add your logic to check for a winning condition
-        // If a player wins, set the winner
+        //Defining Win Combinations 
+        const winCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6] // Diagonals
+        ];
+
+        for (const combination of winCombinations) {
+            const [a, b, c] = combination;
+            if (squares[a] === symbol && squares[b] === symbol && squares[c] === symbol) {
+                setWinner(`${symbol} wins!`); 
+                return;
+            }
+        }
+    
+        // Check for a draw 
+        if (!squares.includes("")) {
+            setWinner("It's a draw!");
+        }
     };
 
     return (
@@ -58,7 +75,7 @@ const Board = () => {
                     </p>
                 )}
             </div>
-            {winner ? <p>{winner} wins!</p> : null}
+            {winner ? <p>{winner} </p> : null}
             <div className="grid grid-cols-3 gap-4">
                 {squares.map((symbol, index) => (
                     <Square
