@@ -6,11 +6,20 @@ const Board = () => {
     const [currentPlayer, setCurrentPlayer] = useState("");
     const [winner, setWinner] = useState("");
 
-    // Player1 plays "X", Player2 plays "Y"
-    const player1Symbol = "X";
-    const player2Symbol = "O";
+    //Defining Win Combinations
+    const winCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8], // Rows
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8], // Columns
+        [0, 4, 8],
+        [2, 4, 6], // Diagonals
+    ];
 
     // Handle Toss(Choose who goes first)
+    // Winner plays "X", Loser plays "O"
     const handleCoinToss = () => {
         const startingPlayer = Math.random() < 0.5 ? "X" : "O";
         setCurrentPlayer(startingPlayer);
@@ -18,7 +27,7 @@ const Board = () => {
 
     // Handle clicking on the square
     const handleSquareClick = (index) => {
-        if (currentPlayer !== "") {
+        if (( currentPlayer !== "" ) && ( winner === "" )) {
             if (squares[index] === "") {
                 const newSquares = [...squares];
                 newSquares[index] = currentPlayer;
@@ -35,25 +44,29 @@ const Board = () => {
 
     // Handle winning condition
     const checkForWinner = (squares, symbol) => {
-        //Defining Win Combinations 
-        const winCombinations = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-            [0, 4, 8], [2, 4, 6] // Diagonals
-        ];
-
         for (const combination of winCombinations) {
             const [a, b, c] = combination;
-            if (squares[a] === symbol && squares[b] === symbol && squares[c] === symbol) {
-                setWinner(`${symbol} wins!`); 
+            if (
+                squares[a] === symbol &&
+                squares[b] === symbol &&
+                squares[c] === symbol
+            ) {
+                setWinner(`${symbol} wins!`);
                 return;
             }
         }
-    
-        // Check for a draw 
+
+        // Check for a draw
         if (!squares.includes("")) {
-            setWinner("It's a draw!");
+            setWinner("DRAW!");
         }
+    };
+
+    // Restart the game
+    const restartGame = () => {
+        setSquares(Array(9).fill(""));
+        setWinner("");
+        handleCoinToss();
     };
 
     return (
@@ -75,7 +88,11 @@ const Board = () => {
                     </p>
                 )}
             </div>
-            {winner ? <p>{winner} </p> : null}
+            {winner ? (
+                <p className="absolute h-[8rem] w-[24rem] bg-pink-500 bg-opacity-95 flex justify-center items-center text-5xl rounded-xl">
+                    {winner}{" "}
+                </p>
+            ) : null}
             <div className="grid grid-cols-3 gap-4">
                 {squares.map((symbol, index) => (
                     <Square
@@ -85,6 +102,16 @@ const Board = () => {
                     />
                 ))}
             </div>
+            {winner && (
+                <div className="absolute bottom-10 flex flex-col items-center justify-center">
+                    <button
+                        className="bg-orange-400 px-2 rounded-lg w-[10rem] h-[3rem] text-xl"
+                        onClick={restartGame}
+                    >
+                        Restart
+                    </button>
+                </div>
+            )}
         </>
     );
 };
