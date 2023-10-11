@@ -1,4 +1,4 @@
-import Circle from "./Circle";
-import Cross from "./Cross";
+import Square from "./Square";
+import Symbol from "./Symbol";
 
-export { Circle, Cross };
+export { Square, Symbol };
