@@ -18,16 +18,18 @@ const Board = () => {
 
     // Handle clicking on the square
     const handleSquareClick = (index) => {
-        if (squares[index] === "") {
-            const newSquares = [...squares];
-            newSquares[index] = currentPlayer;
-            setSquares(newSquares);
+        if (currentPlayer !== "") {
+            if (squares[index] === "") {
+                const newSquares = [...squares];
+                newSquares[index] = currentPlayer;
+                setSquares(newSquares);
 
-            // Check if anyone has won
-            checkForWinner(newSquares, currentPlayer);
+                // Check if anyone has won
+                checkForWinner(newSquares, currentPlayer);
 
-            // Update the currentPlayer and render the opposite symbol
-            setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+                // Update the currentPlayer and render the opposite symbol
+                setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+            }
         }
     };
 
@@ -39,18 +41,24 @@ const Board = () => {
 
     return (
         <>
-            <div className="absolute top-8 flex flex-col items-center justify-center gap-2">
+            <div className="absolute top-12 flex flex-col items-center justify-center gap-2">
                 {currentPlayer === "" ? (
                     <>
-                        <p>"Click 'Start' to toss the coin."</p>
                         <button
-                            className="bg-green-400 p-2 rounded-lg w-[6rem]"
+                            className="bg-green-400 px-2 rounded-lg w-[4.6rem] h-[2.5rem]"
                             onClick={handleCoinToss}
                         >
                             Start
                         </button>
                     </>
-                ) : (<p>{`Current Player: ${currentPlayer}`}</p>)}
+                ) : (
+                    <p className="text-xl flex gap-3">
+                        Current Player:{" "}
+                        <span className="text-[1.6rem] font-bold self-center">
+                            {currentPlayer}
+                        </span>
+                    </p>
+                )}
             </div>
             {winner ? <p>{winner} wins!</p> : null}
             <div className="grid grid-cols-3 gap-4">
