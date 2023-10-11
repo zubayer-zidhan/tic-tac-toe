@@ -43,14 +43,12 @@ const Board = () => {
         <>
             <div className="absolute top-12 flex flex-col items-center justify-center gap-2">
                 {currentPlayer === "" ? (
-                    <>
-                        <button
-                            className="bg-green-400 px-2 rounded-lg w-[4.6rem] h-[2.5rem]"
-                            onClick={handleCoinToss}
-                        >
-                            Start
-                        </button>
-                    </>
+                    <button
+                        className="bg-green-400 px-2 rounded-lg w-[5.2rem] h-[2.5rem] text-xl"
+                        onClick={handleCoinToss}
+                    >
+                        Start
+                    </button>
                 ) : (
                     <p className="text-xl flex gap-3">
                         Current Player:{" "}
